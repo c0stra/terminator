@@ -21,7 +21,7 @@
         <mockito.version>2.18.3</mockito.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fluent.api.end.check.version>1.16</fluent.api.end.check.version>
-        <rpg.version>0.10-SNAPSHOT</rpg.version>
+        <rpg.version>0.9</rpg.version>
     </properties>
 
     <dependencies>
