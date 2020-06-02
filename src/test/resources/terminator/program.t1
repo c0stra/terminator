@@ -1,0 +1,8 @@
+/**
+ * Testing script for language Terminator.
+ */
+
+call(1, "", a).
+
+When (Arnold) steels (aBike),
+then fun begins.

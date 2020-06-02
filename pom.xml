@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>foundation.fluent.api</groupId>
+    <artifactId>terminator</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Terminator language</name>
+    <description>
+        Terminator language is yet another JVM language with syntax, that allows to write sentences like in real english.
+        The purpose is to be able to write human readable and descriptive code, with main usage in areas, where this is
+        important. E.g. automated testing.
+    </description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <compiler.plugin.version>3.8.0</compiler.plugin.version>
+        <testng.version>7.1.0</testng.version>
+        <mockito.version>2.18.3</mockito.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fluent.api.end.check.version>1.16</fluent.api.end.check.version>
+        <rpg.version>0.10-SNAPSHOT</rpg.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>foundation.fluent.api</groupId>
+            <artifactId>rpg-common</artifactId>
+            <version>${rpg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>foundation.fluent.api</groupId>
+            <artifactId>rpg</artifactId>
+            <version>${rpg.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>7.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <licenses>
+        <license>
+            <name>New BSD License</name>
+            <url>http://www.opensource.org/licenses/bsd-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Ondrej Fischer</name>
+            <email>ondrej.fischer@gmail.com</email>
+            <url>http://github.com/c0stra</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/c0stra/terminator.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/c0stra/terminator.git</developerConnection>
+        <url>https://github.com/c0stra/terminator</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>foundation.fluent.api</groupId>
+                            <artifactId>rpg-apt</artifactId>
+                            <version>${rpg.version}</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
