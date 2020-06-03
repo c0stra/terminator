@@ -1,6 +1,6 @@
 package foundation.lang.terminator.tree;
 
-import foundation.lang.terminator.tree.definition.Definition;
+import foundation.lang.terminator.tree.definition.*;
 import foundation.lang.terminator.tree.expression.*;
 import foundation.lang.terminator.tree.statement.Assignment;
 import foundation.lang.terminator.tree.statement.Block;
@@ -14,17 +14,22 @@ import foundation.rpg.common.precedence.*;
 import foundation.rpg.common.precedence.LogicalAnd;
 import foundation.rpg.common.rules.*;
 import foundation.rpg.common.symbols.*;
+import foundation.rpg.common.symbols.Class;
 import foundation.rpg.parser.Token;
 
 import java.util.List;
 
 public class TreeFactory implements WhiteSpaceRules, ListRules {
 
-    Unit is(@List1 List<Definition> l) { return new Unit(l); }
-
     @StartSymbol(parserClassName = "TerminatorParser")
-    Block is1(@List1 List<Statement> l) { return new Block(l); }
+    Unit is(@List1 List<Definition> l) { return new Unit(l); }
+    Definition is(ClassDef d) { return d; }
+    Definition is(Identifier i, Equal o, Expression v, Dot d) { return new VariableDef(i.toString(), v); }
+    Definition is(Identifier i, LPar l, @List3 List<Identifier> p, RPar r, Statement b) { return new MethodDef(i.toString(), p, b); }
 
+    ClassDef is(Class c, Identifier i, LCurl l, @List1 List<Definition> m, RCurl r) { return new ClassDef(i.toString(), m); }
+
+    Statement is (LCurl l, @List1 List<Statement> s, RCurl r) { return new Block(s); }
     Statement is (MemberSelect i, Equal a, Expression e, Dot d) { return new Assignment(i, e); }
     Statement is (ArrayAccess i, Equal a, Expression e, Dot d) { return new Assignment(i, e); }
     Statement is (@CommaSeparatedNonEmpty List<Expression> e, Dot d) { return new Termination(e); }
@@ -68,8 +73,6 @@ public class TreeFactory implements WhiteSpaceRules, ListRules {
     //@Atomic Expression is(Short v) { return new Literal<>(v); }
     //@Atomic Expression is(Byte v) { return new Literal<>(v); }
     @Atomic Expression is(Character v) { return new Literal<>(v); }
-    @Atomic Expression is(True t) { return new Literal<>(true); }
-    @Atomic Expression is(False t) { return new Literal<>(false); }
     @Atomic Expression is(LPar l, Expression e, RPar r) { return e; }
 
     String aString(@Match(Patterns.DOUBLE_QUOTED_STRING)Token t) { return t.toString().substring(1, t.length() - 1); }

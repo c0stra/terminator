@@ -2,7 +2,9 @@
  * Testing script for language Terminator.
  */
 
-call(1, "", a).
+method(Arnold, aBike) {
 
-When (Arnold) steels (aBike),
-then fun begins.
+    When (Arnold) steels (aBike),
+    then fun begins.
+
+}

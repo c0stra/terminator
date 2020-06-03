@@ -2,7 +2,7 @@ package foundation.lang.terminator;
 
 import foundation.lang.terminator.tree.TerminatorParser;
 import foundation.lang.terminator.tree.TreeFactory;
-import foundation.lang.terminator.tree.statement.Block;
+import foundation.lang.terminator.unit.Unit;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class TerminatorTest {
 
     @Test
     public void test() throws IOException {
-        Block script = parser.parseUrl(getClass().getResource("/terminator/program.t1"));
+        Unit script = parser.parseUrl(getClass().getResource("/terminator/program.t1"));
         System.out.println(script);
     }
 
